@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agendamento online do pet shop Patinhas & Cia">
+  <title>Patinhas & Cia — Agendamento</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Patinhas & Cia, início">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>Patinhas &amp; Cia</span>
+      </a>
+      <div class="top-actions">
+        <p class="top-note">Cuidado gentil, do focinho ao rabinho.</p>
+        <button class="appointments-trigger" id="appointments-trigger" type="button">
+          <span aria-hidden="true">📋</span>
+          <span class="appointments-trigger-label">Meus agendamentos</span>
+          <span class="appointments-count-badge" id="appointments-count-badge" aria-label="0 agendamentos">0</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">✦ Agendamento online</p>
+        <h1 id="page-title">Seu pet merece um <span>dia especial.</span></h1>
+      </div>
+      <p class="hero-copy">Escolha o cuidado, a melhor data e um horário. É simples, rápido e leva menos de um minuto.</p>
+    </section>
+
+    <div class="layout">
+      <div class="flow">
+        <section class="panel" aria-labelledby="services-title">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title" id="services-title"><span class="step">1</span> Escolha o serviço</h2>
+              <p class="hint">Selecione uma opção para o seu pet.</p>
+            </div>
+          </div>
+          <div class="service-grid" id="service-grid"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="date-title">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title" id="date-title"><span class="step">2</span> Escolha a data</h2>
+              <p class="hint">Domingos e datas passadas ficam indisponíveis.</p>
+            </div>
+          </div>
+          <div class="calendar-toolbar">
+            <h3 class="month-label" id="month-label" aria-live="polite"></h3>
+            <div class="calendar-nav" aria-label="Navegação do calendário">
+              <button class="nav-button" id="prev-month" type="button" aria-label="Mês anterior">←</button>
+              <button class="nav-button" id="next-month" type="button" aria-label="Próximo mês">→</button>
+            </div>
+          </div>
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span class="weekday">Dom</span><span class="weekday">Seg</span><span class="weekday">Ter</span>
+            <span class="weekday">Qua</span><span class="weekday">Qui</span><span class="weekday">Sex</span><span class="weekday">Sáb</span>
+          </div>
+          <div class="calendar-days" id="calendar-days" role="grid" aria-labelledby="month-label"></div>
+          <div class="legend" aria-hidden="true">
+            <span><i></i> Selecionado</span>
+            <span><i class="unavailable"></i> Indisponível</span>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="time-title">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title" id="time-title"><span class="step">3</span> Escolha o horário</h2>
+              <p class="hint" id="time-hint">Atendimento das 9h às 18h, com pausa para almoço.</p>
+            </div>
+          </div>
+          <div id="schedule"></div>
+        </section>
+      </div>
+
+      <aside class="panel summary" aria-labelledby="summary-title">
+        <div class="summary-banner">
+          <h2 id="summary-title">Seu agendamento</h2>
+          <p>Confira os detalhes antes de confirmar.</p>
+        </div>
+        <div class="summary-body">
+          <div class="summary-row">
+            <span class="summary-icon" aria-hidden="true">✂️</span>
+            <div><span class="summary-label">Serviço</span><span class="summary-value" id="summary-service"></span></div>
+          </div>
+          <div class="summary-row">
+            <span class="summary-icon" aria-hidden="true">📅</span>
+            <div><span class="summary-label">Data</span><span class="summary-value placeholder" id="summary-date">Escolha uma data</span></div>
+          </div>
+          <div class="summary-row">
+            <span class="summary-icon" aria-hidden="true">🕘</span>
+            <div><span class="summary-label">Horário</span><span class="summary-value placeholder" id="summary-time">Escolha um horário</span></div>
+          </div>
+          <div class="total"><span>Total</span><strong id="summary-price"></strong></div>
+          <form class="booking-form" id="booking-form" hidden>
+            <h3>Dados do agendamento</h3>
+            <p>Preencha os três campos para confirmar.</p>
+            <div class="field">
+              <label for="tutor-name">Nome do tutor</label>
+              <input id="tutor-name" name="tutorName" type="text" autocomplete="name" placeholder="Seu nome" required>
+            </div>
+            <div class="field">
+              <label for="pet-name">Nome do pet</label>
+              <input id="pet-name" name="petName" type="text" autocomplete="off" placeholder="Nome do seu pet" required>
+            </div>
+            <div class="field">
+              <label for="phone">Telefone</label>
+              <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required>
+            </div>
+            <button class="confirm-button" id="confirm-button" type="submit">Confirmar agendamento</button>
+          </form>
+          <p class="privacy-note">Os dados ficam só na memória desta página e somem ao fechar ou recarregar.</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <dialog id="success-dialog" aria-labelledby="success-title">
+    <div class="dialog-content">
+      <div class="success-mark" aria-hidden="true">✓</div>
+      <h2 id="success-title">Tudo combinado!</h2>
+      <p>O horário foi reservado na agenda desta página.</p>
+      <div class="dialog-details">
+        <dl class="confirmation-list">
+          <div><dt>Serviço</dt><dd id="confirmation-service"></dd></div>
+          <div><dt>Data</dt><dd id="confirmation-date"></dd></div>
+          <div><dt>Horário</dt><dd id="confirmation-time"></dd></div>
+          <div><dt>Preço</dt><dd id="confirmation-price"></dd></div>
+        </dl>
+      </div>
+      <button class="dialog-close" id="dialog-close" type="button">Fechar</button>
+    </div>
+  </dialog>
+
+  <dialog class="appointments-dialog" id="appointments-dialog" aria-labelledby="appointments-title">
+    <div class="dialog-content">
+      <header class="appointments-dialog-head">
+        <div>
+          <h2 id="appointments-title">Meus agendamentos</h2>
+          <p>Seus próximos horários, em ordem cronológica.</p>
+        </div>
+        <button class="appointments-close" id="appointments-close" type="button" aria-label="Fechar meus agendamentos">×</button>
+      </header>
+      <div class="appointments-body">
+        <div class="appointments-stats" aria-label="Resumo dos agendamentos">
+          <div class="appointments-stat"><span>Total de agendamentos</span><strong id="appointments-total-count">0</strong></div>
+          <div class="appointments-stat"><span>Valor total</span><strong id="appointments-total-value">R$ 0,00</strong></div>
+        </div>
+        <div class="appointments-list" id="appointments-list" aria-live="polite"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <noscript><div class="noscript">Ative o JavaScript do navegador para usar o agendamento.</div></noscript>
+  <script src="app.js"></script>
+</body>
+</html>
+
